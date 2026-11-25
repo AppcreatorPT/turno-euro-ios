@@ -1,0 +1,20 @@
+name: Compilar Turno Euro
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  iphone:
+    runs-on: xcode-27
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: node Test/check.cjs
+      - run: bash build.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TurnoEuro-iPhone
+          path: dist/TurnoEuro.ipa
+          if-no-files-found: error

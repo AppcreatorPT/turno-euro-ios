@@ -1,5 +1,4 @@
 import Foundation
-import CoreMedia
 import Combine
 import ScreenCaptureKit
 import UIKit
@@ -67,10 +66,11 @@ final class Shift: NSObject, ObservableObject, SCContentSharingPickerObserver, S
                     }
                 })
                 let config = SCStreamConfiguration()
-                let screen = UIScreen.main.nativeBounds
-                config.width = min(1080, Int(screen.width))
-                config.height = max(2, Int((screen.height / screen.width * CGFloat(config.width)) / 2) * 2)
-                config.minimumFrameInterval = CMTime(value: 1, timescale: 4)
+                if let scene = UIApplication.shared.connectedScenes.compactMap({ $0 as? UIWindowScene }).first {
+                    let screen = scene.screen.nativeBounds
+                    config.width = min(1080, Int(screen.width))
+                    config.height = max(2, Int((screen.height / screen.width * CGFloat(config.width)) / 2) * 2)
+                }
                 let capture = SCStream(filter: filter, configuration: config, delegate: self)
                 try capture.addStreamOutput(scan, type: .screen, sampleHandlerQueue: scan.queue)
                 self.stream = capture

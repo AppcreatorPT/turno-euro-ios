@@ -19,6 +19,8 @@ guard let sample = graphic.cgImage(forProposedRect: nil, context: nil, hints: ni
     fatalError("Imagem de teste indisponível")
 }
 let request = VNRecognizeTextRequest()
+// Hosted Macs may not expose a GPU to Vision. Exercise the OCR model on the CPU.
+request.usesCPUOnly = true
 request.recognitionLevel = .accurate
 request.recognitionLanguages = ["fr-FR", "en-US"]
 request.usesLanguageCorrection = false

@@ -13,9 +13,9 @@ jobs:
       - uses: actions/checkout@v4
       - run: node Test/check.cjs
       - run: bash build.sh
-      - run: swift Test/vision.swift
       - uses: actions/upload-artifact@v4
         with:
           name: TurnoEuro-iPhone
           path: dist/TurnoEuro.ipa
           if-no-files-found: error
+      - run: swift Test/vision.swift
